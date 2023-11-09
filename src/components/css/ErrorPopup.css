@@ -1,0 +1,86 @@
+.error-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #FFF;
+  border: none;
+  border-radius: 6px;
+  width: 600px;
+}
+
+.error-popup-header {
+  font-size: 28px;
+  font-weight: 600;
+  color: #232836;
+  text-align: center;
+}
+
+.error-message-popup{
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 8px;
+  color: #000000;
+  text-align: center;
+}
+
+.error-popup-button {
+  color: #bdc0c4;
+  background-color: #bdc0c4;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.error-popup-button:hover {
+  background-color: #bdc0c4;
+}
+
+.ReactModal__Content {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 2px solid #ffffff;
+  border-color: #ffffff;
+  border-radius: 10px;
+  overflow: auto;
+  justify-content: center;
+  align-items: center;
+  margin-left: 41.8%;
+}
+
+.custom-modal-content {
+  background: white; /* Customize the modal content background color */
+  border-radius: 10px; /* Customize the border radius */
+  box-shadow: 0 0 10px #3d76e3; /* Customize the box shadow */
+  width: 380px;
+  height: 220px;
+  display: flex;
+  margin-top: 500px;
+  border-color: #016dcb;
+}
+
+
+.error-popup button {
+  background-color: #fff;
+  color: #2c71e0;
+  border: 2px solid #2c71e0;
+  border-radius: 5px;
+  padding: 6px 12px;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  width: 100px;
+}
+
+.error-popup button:hover {
+  background-color: #2c71e0;
+  color: #fff;
+}
+
+.warning-popup{
+  height: 50px;
+  width: 50px;
+}
