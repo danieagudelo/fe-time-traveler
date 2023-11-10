@@ -7,8 +7,6 @@ import { Navigate } from 'react-router-dom';
 import './css/LoginForm.css';
 import { useUser } from './UserContext';
 
-const apiUrl = process.env.REACT_APP_API_URL;
-
 const LoginFormContainer = () => {
   const [showSignup, setShowSignup] = useState(false);
   const [redirectToSecurePage, setRedirectToSecurePage] = useState(false);
@@ -23,7 +21,7 @@ const LoginFormContainer = () => {
 
   const handleLogin = (data) => {
     axios
-      .post(apiUrl + '/user/auth/login', data)
+      .post('https://api.teusaquillotimetraveler.online/user/auth/login', data)
       .then((response) => {
         console.log(response.data);
         setUser(response.data);
@@ -58,7 +56,7 @@ const LoginFormContainer = () => {
       return;
     }
     try {
-      const response = await axios.post(apiUrl + '/user/auth/signup', formData);
+      const response = await axios.post('https://api.teusaquillotimetraveler.online/user/auth/signup', formData);
       console.log(response.data);
       setUser(response.data);
       setRedirectToSecurePage(true);

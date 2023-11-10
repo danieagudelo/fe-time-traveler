@@ -7,8 +7,6 @@ import {useUser} from './UserContext';
 import {jwtDecode} from "jwt-decode";
 
 
-const apiUrl = process.env.REACT_APP_API_URL;
-
 const AnyReactComponent = ({text, onClick, id}) => (
     <div style={{position: 'relative'}}>
         <img
@@ -20,6 +18,15 @@ const AnyReactComponent = ({text, onClick, id}) => (
         {text}
     </div>
 );
+
+const getLocalStorageData = (key, defaultValue) => {
+    const storedData = localStorage.getItem(key);
+    return storedData ? JSON.parse(storedData) : defaultValue;
+};
+
+const setLocalStorageData = (key, value) => {
+    localStorage.setItem(key, JSON.stringify(value));
+};
 
 const getRelativeTime = (timestamp) => {
     const currentDate = new Date();
@@ -48,22 +55,22 @@ const getRelativeTime = (timestamp) => {
 };
 
 const GoogleMap = () => {
-    const [rating] = useState(4.5);
-    const [markers, setMarkers] = useState([]);
-    const [selectedMarker, setSelectedMarker] = useState(null);
-    const [selectedText, setSelectedText] = useState('');
-    const [selectedTitle, setSelectedTitle] = useState('');
-    const [selectedImages, setSelectedImages] = useState([]);
-    const [imageIndex, setImageIndex] = useState(0);
-    const [comments, setComments] = useState([]);
-    const [comment, setComment] = useState('');
+    const [rating] = useState(getLocalStorageData('rating', 4.5));
+    const [markers, setMarkers] = useState(getLocalStorageData('markers', []));
+    const [selectedMarker, setSelectedMarker] = useState(getLocalStorageData('selectedMarker', null));
+    const [selectedText, setSelectedText] = useState(getLocalStorageData('selectedText', ''));
+    const [selectedTitle, setSelectedTitle] = useState(getLocalStorageData('selectedTitle', ''));
+    const [selectedImages, setSelectedImages] = useState(getLocalStorageData('selectedImages', []));
+    const [imageIndex, setImageIndex] = useState(getLocalStorageData('imageIndex', 0));
+    const [comments, setComments] = useState(getLocalStorageData('comments', []));
+    const [comment, setComment] = useState(getLocalStorageData('comment', ''));
 
     const mapContainerRef = useRef(null);
 
     const {user} = useUser();
 
     useEffect(() => {
-        fetch(apiUrl+'/locations')
+        fetch('https://api.teusaquillotimetraveler.online/locations')
             .then((response) => response.json())
             .then((data) => {
                 // Parse lat and lng to floats
@@ -73,6 +80,7 @@ const GoogleMap = () => {
                     lng: parseFloat(marker.lng),
                 }));
                 setMarkers(parsedData);
+                setLocalStorageData('markers', parsedData);
             })
             .catch((error) => {
                 console.error('Error fetching marker data:', error);
@@ -87,7 +95,7 @@ const GoogleMap = () => {
 
 
     const fetchComments = (locationId) => {
-        fetch(apiUrl+`/comments?location_id=${locationId}`)
+        fetch(`https://api.teusaquillotimetraveler.online/comments?location_id=${locationId}`)
             .then((response) => response.json())
             .then((data) => setComments(data))
             .catch((error) => {
@@ -124,7 +132,7 @@ const GoogleMap = () => {
 
 
         try {
-            const response = await fetch(apiUrl+'/comments', {
+            const response = await fetch('https://api.teusaquillotimetraveler.online/comments', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -238,7 +246,7 @@ const GoogleMap = () => {
             const token = user ? user.token : null;
             const userId = token ? jwtDecode(token)?.sub : null;
 
-            const response = await fetch(apiUrl+'/comments/react', {
+            const response = await fetch('https://api.teusaquillotimetraveler.online/comments/react', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -261,6 +269,17 @@ const GoogleMap = () => {
             console.error('Error reacting to comment:', error);
         }
     };
+
+    useEffect(() => {
+        setLocalStorageData('rating', rating);
+        setLocalStorageData('selectedMarker', selectedMarker);
+        setLocalStorageData('selectedText', selectedText);
+        setLocalStorageData('selectedTitle', selectedTitle);
+        setLocalStorageData('selectedImages', selectedImages);
+        setLocalStorageData('imageIndex', imageIndex);
+        setLocalStorageData('comments', comments);
+        setLocalStorageData('comment', comment);
+    }, [rating, selectedMarker, selectedText, selectedTitle, selectedImages, imageIndex, comments, comment]);
 
     return (
         <div className="map-container" ref={mapContainerRef} onClick={handleMapClick}>

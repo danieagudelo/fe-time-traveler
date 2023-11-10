@@ -4,8 +4,6 @@ import {Navigate} from 'react-router-dom';
 import './css/GoogleLoginComponent.css';
 import { useUser } from './UserContext';
 
-const apiUrl = process.env.REACT_APP_API_URL;
-
 const GoogleLoginComponent = () => {
 
     const [redirectToSecurePage, setRedirectToSecurePage] = useState(false);
@@ -14,7 +12,7 @@ const GoogleLoginComponent = () => {
 
     const responseGoogle = (response) => {
         console.log(response);
-        fetch(apiUrl + '/user/auth/google?token=' + response.credential, {
+        fetch('https://api.teusaquillotimetraveler.online/user/auth/google?token=' + response.credential, {
             credentials: 'include',
         })
             .then((response) => response.json())

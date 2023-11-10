@@ -4,8 +4,6 @@ import {Navigate} from 'react-router-dom';
 import './css/FacebookLoginComponent.css';
 import { useUser } from './UserContext';
 
-const apiUrl = process.env.REACT_APP_API_URL;
-
 const FacebookLoginComponent = () => {
     const [redirectToSecurePage, setRedirectToSecurePage] = useState(false);
 
@@ -13,7 +11,7 @@ const FacebookLoginComponent = () => {
 
     const responseFacebook = (response) => {
 
-        fetch(apiUrl + '/user/auth/facebook', {
+        fetch('https://api.teusaquillotimetraveler.online/user/auth/facebook', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
